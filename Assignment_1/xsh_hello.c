@@ -11,6 +11,15 @@
 int displayHello(int noOfArgs, char *args[]);
 
 shellcmd xsh_hello(int nargs, char *args[]){
+
+  if (nargs == 2 && strncmp(args[1], "--help", 6) == 0) {
+    printf("Use: %s [file...]\n\n", args[0]);
+    printf("Description:\n");
+    printf("\tFirst xinu command\n");
+    printf("Options:\n");
+    printf("\tAccepts one commandline arguement\n");
+    return 0;
+  }
   return displayHello(nargs, &args[0]);
 }
 
