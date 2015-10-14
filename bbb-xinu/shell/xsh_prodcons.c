@@ -1,9 +1,10 @@
 #include <prodcons.h>
-#include <stdlib.h>
+
 #define MAX_COUNT 2000
 
-   int n;                            //Definition for global variable 'n'
-   sid32 consumed, produced;     //Defination for semaphores
+int n;                            //Definition for global variable 'n'
+future *f1, *f2, *f3;     		//Defination for futures
+sid32 consumed, produced;	//semaphores
 
 int isNumeric(const char *str){
     while(*str != '\0')
@@ -34,32 +35,54 @@ int isNumeric(const char *str){
 	*/
 
 	if (nargs == 2) {
+
 		if(strncmp(args[1], "--help", 7) == 0){
-			printf("Use: %s [file...]\n", args[0]);
 			printf("Description:\n");
-			printf("\tProducer-Consumer with synchronization\n");
 			printf("\t--help\t display this help and exit\n");
-			printf("Arguments:\n");
+			printf("\t-f \t execute futures\n");
+			printf("\t\t by default it will execute producer-consumer.\n");
+			printf("Arguments in case of producer-consumer:\n");
 			printf("\tmax value of shared variable (integer){default value is 2000}\n");
 			return 0;
 		}
 
-		//check args[1](integer) if present assign value to count
-		if(!isNumeric(args[1])){
-			printf("Invalid argument.\nType prodcons --help for details.\n");
-			return 0; 
-		}
-		count = (atoi)(args[1]);
+		if(strncmp(args[1], "-f", 3) == 0){
 
-		//if command line count is 0 terminate. 
-		if(count == 0){
-			printf("Nothing to produce.\n");
-			return 0;
+			f1 = future_alloc(FUTURE_EXCLUSIVE);
+			f2 = future_alloc(FUTURE_EXCLUSIVE);
+			f3 = future_alloc(FUTURE_EXCLUSIVE);
+					 
+			resume( create(future_cons, 1024, 20, "fcons1", 1, f1) );
+			resume( create(future_prod, 1024, 20, "fprod1", 1, f1) );
+
+			resume( create(future_cons, 1024, 20, "fcons2", 1, f2) );
+			resume( create(future_prod, 1024, 20, "fprod2", 1, f2) );
+					
+			resume( create(future_cons, 1024, 20, "fcons3", 1, f3) );
+			resume( create(future_prod, 1024, 20, "fprod3", 1, f3) );
+			
+			
+			return 0;		
+
+		}else{
+
+			//check args[1](integer) if present assign value to count
+			if(!isNumeric(args[1])){
+				printf("Invalid argument.\nType prodcons --help for details.\n");
+				return 0; 
+			}
+			count = (atoi)(args[1]);
+
+			//if command line count is 0 terminate. 
+			if(count == 0){
+				printf("Nothing to produce.\n");
+				return 0;	
+			}			
 		}
 	}
-	
-	n=0;
 
+	n=0;	
+	
 	/*Initialise semaphores*/
 	produced = semcreate(0);
 	consumed = semcreate(1);            
