@@ -9,6 +9,8 @@ uint future_prod(future *fut) {
 		j += i;
 	}
 
-	future_set(fut, &j);
-	return OK;
+	if(future_set(fut, &j) == OK){
+		return OK;
+	}
+	return SYSERR;
 }

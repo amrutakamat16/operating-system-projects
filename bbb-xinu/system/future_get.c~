@@ -4,7 +4,6 @@
 syscall future_get(future *f, int *value){
 	
 	intmask	mask;
-	
 	mask=disable();
 	 if (f->state == FUTURE_VALID){
    	 	*value = f->value;
@@ -16,11 +15,12 @@ syscall future_get(future *f, int *value){
 		
 		f->state=FUTURE_WAITING;
 		f->tid=currpid;
-		/*can be used to wait while producer produces value in future
-		*fwait(f);
-		*value = f->value;*/
+		while(f->state != FUTURE_VALID){
+			resched();
+		}
+		*value = f->value;
 		restore(mask);
-		return SYSERR;
+		return OK;
 	}
 
  	restore(mask);

@@ -22,9 +22,12 @@ syscall	fwait(
 	prptr = &proctab[currpid];
 	prptr->prstate = PR_WAIT;
 	
-	f->tid = currpid;
-	f->state=FUTURE_WAITING;		
-
+	if(f->state == FUTURE_EXCLUSIVE){
+		f->pid = currpid;
+				
+	}else if(f->state == FUTURE_SHARED){
+		fenqueue(currpid, f->get_queue);	
+	}
 	resched();			/*   and reschedule	*/
 
 	restore(mask);
