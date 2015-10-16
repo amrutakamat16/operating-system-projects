@@ -7,12 +7,13 @@ syscall future_get(future *f, int *value){
 	mask=disable();
 	 if (f->state == FUTURE_VALID){
    	 	*value = f->value;
+		f->tid=NULL;
+		f->state=FUTURE_EMPTY;
 		restore(mask);
     		return OK;
  	 }
 
 	if(f->state == FUTURE_EMPTY){
-		
 		f->state=FUTURE_WAITING;
 		f->tid=currpid;
 		while(f->state != FUTURE_VALID){
