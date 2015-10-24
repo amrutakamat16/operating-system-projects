@@ -3,7 +3,7 @@
 #define MAX_COUNT 2000
 
 int n;                            //Definition for global variable 'n'
-future *f1, *f2, *f3;     		//Defination for futures
+future *f_exclusive, *f_shared, *f_queue;     		//Defination for futures
 sid32 consumed, produced;	//semaphores
 
 int isNumeric(const char *str){
@@ -46,20 +46,32 @@ int isNumeric(const char *str){
 			return 0;
 		}
 
-		if(strncmp(args[1], "-f", 3) == 0){
+			if(strncmp(args[1], "-f", 3) == 0){
 
-			f1 = future_alloc(FUTURE_EXCLUSIVE);
-			f2 = future_alloc(FUTURE_EXCLUSIVE);
-			f3 = future_alloc(FUTURE_EXCLUSIVE);
+			f_exclusive = future_alloc(FUTURE_EXCLUSIVE);
+			f_shared = future_alloc(FUTURE_SHARED);
+			f_queue = future_alloc(FUTURE_QUEUE);
 					 
-			resume( create(future_cons, 1024, 20, "fcons1", 1, f1) );
-			resume( create(future_prod, 1024, 20, "fprod1", 1, f1) );
-
-			resume( create(future_cons, 1024, 20, "fcons2", 1, f2) );
-			resume( create(future_prod, 1024, 20, "fprod2", 1, f2) );
-					
-			resume( create(future_cons, 1024, 20, "fcons3", 1, f3) );
-			resume( create(future_prod, 1024, 20, "fprod3", 1, f3) );
+			// Test FUTURE_EXCLUSIVE
+			resume( create(future_cons, 1024, 20, "fcons1", 1, f_exclusive) );
+			resume( create(future_prod, 1024, 20, "fprod1", 1, f_exclusive) );
+			sleep(1);
+			// Test FUTURE_SHARED
+			resume( create(future_cons, 1024, 20, "fcons2", 1, f_shared) );
+			resume( create(future_cons, 1024, 20, "fcons3", 1, f_shared) );
+			resume( create(future_cons, 1024, 20, "fcons4", 1, f_shared) ); 
+			resume( create(future_cons, 1024, 20, "fcons5", 1, f_shared) );
+			resume( create(future_prod, 1024, 20, "fprod2", 1, f_shared) );
+			sleep(1);
+			// Test FUTURE_QUEUE
+			resume( create(future_cons, 1024, 20, "fcons6", 1, f_queue) );
+			resume( create(future_cons, 1024, 20, "fcons7", 1, f_queue) );
+			resume( create(future_cons, 1024, 20, "fcons7", 1, f_queue) );
+			resume( create(future_cons, 1024, 20, "fcons7", 1, f_queue) );
+			resume( create(future_prod, 1024, 20, "fprod3", 1, f_queue) );
+			resume( create(future_prod, 1024, 20, "fprod4", 1, f_queue) );
+			resume( create(future_prod, 1024, 20, "fprod5", 1, f_queue) );
+			resume( create(future_prod, 1024, 20, "fprod6", 1, f_queue) );
 			
 			
 			return 0;		

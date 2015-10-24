@@ -11,10 +11,6 @@ extern sid32 consumed, produced;
 void consumer(int count);
 void producer(int count);
 
-
-/* Declare the required futures */
-extern future *f1, *f2, *f3;   
-
 /*function Prototype*/
 uint future_cons(future *fut);
 uint future_prod(future *fut);

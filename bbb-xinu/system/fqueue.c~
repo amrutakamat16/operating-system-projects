@@ -20,7 +20,7 @@ pid32	fenqueue(
 		return SYSERR;
 	}
 
-	//tail = fqueuetail(q);
+	tail = fqueuetail(q);
 	prev = fqueuetab[tail].qprev;
 
 	fqueuetab[pid].qnext  = tail;	/* Insert just before tail node	*/

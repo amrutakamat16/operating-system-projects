@@ -4,8 +4,11 @@
 
 /* Default # of queue entries: 1 per process plus 2 for ready list plus	*/
 /*			2 for sleep list plus 2 per semaphore		*/
-#ifndef NQENT
-#define NQENT	(NPROC + 4 + NSEM + NSEM)
+
+#define FNPROC 15
+
+#ifndef FNQENT
+#define FNQENT	(FNPROC + 6)
 #endif
 
 #define	EMPTY	(-1)		/* Null value for qnext or qprev index	*/
@@ -26,11 +29,12 @@ extern	struct fqentry	fqueuetab[];
 #define	fqueuetail(q)	((q) + 1)
 #define	ffirstid(q)	(fqueuetab[fqueuehead(q)].qnext)
 #define	flastid(q)	(fqueuetab[fqueuetail(q)].qprev)
-#define	fisempty(q)	(ffirstid(q) >= NPROC)
-#define	fnonempty(q)	(ffirstid(q) <  NPROC)
-#define	ffirstkey(q)	(fqueuetab[ffirstid(q)].pid)
-#define	flastkey(q)	(fqueuetab[flastid(q)].pid)
+#define	fisempty(q)	(ffirstid(q) >= FNPROC)
+#define	fnonempty(q)	(ffirstid(q) <  FNPROC)
+#define	ffirstkey(q)	(fqueuetab[ffirstid(q)].qpid)
+#define	flastkey(q)	(fqueuetab[flastid(q)].qpid)
 
 /* Inline to check queue id assumes interrupts are disabled */
 
 #define	fisbadqid(x)	(((int32)(x) < 0) || (int32)(x) >= NQENT-1)
+

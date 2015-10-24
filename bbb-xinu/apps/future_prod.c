@@ -2,15 +2,12 @@
 
 uint future_prod(future *fut) {
 
-	int i, j, result;
+	int i, j;
 	j = (int)fut;
-	
+
 	for (i=0; i<1000; i++) {
 		j += i;
 	}
-	result = future_set(fut, &j);
-	if(result == OK){
-		return OK;
-	}
-	return SYSERR;
+	int result = future_set(fut, &j);
+	return result;
 }

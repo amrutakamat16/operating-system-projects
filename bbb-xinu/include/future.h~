@@ -1,6 +1,8 @@
-#include <xinu.h>
+#include <f_queue.h>
+//#include <xinu.h>
+#include <stddef.h>
 #include <stdlib.h>
-#include <fqueue.h>
+
 #ifndef _FUTURE_H_
 #define _FUTURE_H_
  
@@ -20,8 +22,10 @@ typedef struct futent
    int flag;		
    int state;         	
    pid32 pid;
-   queue set_queue;     
-   queue get_queue;
+   //qid16 set_queue;     
+   //qid16 get_queue;
+   queue *set_queue;     
+   queue *get_queue;
 } future;
 
 /* Interface for system call */
