@@ -5,12 +5,11 @@ syscall future_get(future *f, int *value){
 	
 	intmask	mask;
 	mask=disable();
-
 	pid32 pr;	
 	
 	if (f->state == FUTURE_VALID){
 		f->state=FUTURE_EMPTY;
-   	 	*value = f->value;
+   	 	*value = *f->value;
 		restore(mask);
     		return OK;
  	}
