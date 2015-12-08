@@ -60,8 +60,7 @@ status	arp_resolve (
 		if (arptr->arstate == AR_FREE) {
 			continue;
 		}
-		if (arptr->arpaddr == nxthop) { /* Adddress is in cache	*/
-						
+		if (arptr->arpaddr == nxthop) { /* Adddress is in cache	*/		
 			break;
 		}
 	}

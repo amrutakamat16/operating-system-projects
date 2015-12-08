@@ -14,4 +14,4 @@ void producer(int count);
 /*function Prototype*/
 uint future_cons(future *fut);
 uint future_prod(future *fut);
-
+int net_future_prod(future *fut); 

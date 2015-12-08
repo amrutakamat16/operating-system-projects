@@ -85,4 +85,7 @@ extern	shellcmd  xsh_prodcons	(int32, char *[]);
 /* in file xsh_memmgmt.c */
 extern	shellcmd  xsh_memmgmt	(int32, char *[]);
 
+/* in file xsh_network.c */
+extern	shellcmd  xsh_network	(int32, char *[]);
+
 

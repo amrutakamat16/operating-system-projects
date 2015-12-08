@@ -74,5 +74,10 @@ static	void arp_dmp ()
 		printf("\n");
 	}
 	printf("\n");
+
+	/* Adjust to xinu time and store result */
+
+	
+		
 	return;
 }
