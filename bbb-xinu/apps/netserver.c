@@ -37,7 +37,7 @@ int string_length(char s[]) {
 	for (i=0; i<retries; i++) {
 	
 		printf("Requesting value from linux.....\n");    			
-		udp_send(slot, msg, msglen);
+		udp_send(slot, msg, msglen+10);
 
 		printf("Waiting for message from linux.\n");
 		retval = udp_recv(slot, msg, sizeof(msg), delay);

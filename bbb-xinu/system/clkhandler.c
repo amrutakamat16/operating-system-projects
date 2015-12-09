@@ -66,7 +66,7 @@ int	remove_old_arp(void)
 	int32	i;			/* ARP cache index		*/
 	for (i=0; i<ARP_SIZ; i++) {	/* Initialize cache to empty	*/
 		if(arpcache[i].arstate != AR_FREE){
-			if((clktime - arpcache[i].time) == ARP_LIFETIME){
+			if((clktime - arpcache[i].time) >= ARP_LIFETIME){
 				arpcache[i].arstate = AR_FREE;			
 			}
 		}
