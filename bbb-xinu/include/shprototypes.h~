@@ -88,4 +88,6 @@ extern	shellcmd  xsh_memmgmt	(int32, char *[]);
 /* in file xsh_network.c */
 extern	shellcmd  xsh_network	(int32, char *[]);
 
+//extern shellcmd xsh_fstest	(int32, char *[]);	
+
 

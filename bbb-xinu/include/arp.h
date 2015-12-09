@@ -24,7 +24,7 @@
 #define	AR_FREE		0		/* Slot is unused		*/
 #define	AR_PENDING	1		/* Resolution in progress	*/
 #define	AR_RESOLVED	2		/* Entry is valid		*/
-#define	ARP_LIFETIME	300
+#define	ARP_LIFETIME	300		/* ARP packet validity in seconds (5 mins)*/	
 #pragma pack(2)
 struct	arppacket {			/* ARP packet for IP & Ethernet	*/
 	byte	arp_ethdst[ETH_ADDR_LEN];/* Ethernet dest. MAC addr	*/
